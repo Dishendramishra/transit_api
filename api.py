@@ -2,10 +2,17 @@
 import requests
 import re 
 from bs4 import BeautifulSoup
+import datetime
+import julian
 
 def save_as_file(string, filename):
     with open(filename,"w") as f:
         f.write(string)
+
+def convert_to_jd(datetime_tuple):
+    # time = (2019, 12, 31, 0, 0, 0)
+    d = datetime.datetime(*datetime_tuple)
+    return julian.to_jd(d)
 
 def get_planet_data(toi_names): 
     url = "https://exofop.ipac.caltech.edu/tess/gototoitid.php"
@@ -100,11 +107,17 @@ def get_transit_data(planet_data,begin_data,end_date):
         payload = 'columns=planetname_display%2Cra_str%2Cdec_str%2Cperiod%2Ctransitduration%2Cingressjd%2Cmidpointcalendar%2Cegressjd%2Ctargetobsstartcalendar%2Ctargetobsendcalendar%2Cfractionobservable%2Cplanetname&format=CSV&label=&mission=ExoplanetArchive&rows=both&table=transits.tbl&useTimestamp=1&user=&workspace='
         response = requests.request("POST", url, data = payload+directory)
 
-        save_as_file(response.text,data[0]+".txt")
+        file_data = response.text
+        file_data = file_data[file_data.rfind("#")+1:]
+        save_as_file(file_data,data[0]+".csv")
 
 #%%
-toi_names = [1592,1606,1598,1608,1580,1005,1548,1471,1490]
+toi_names = [1592]#,1606,1598,1608,1580,1005,1548,1471,1490]
 toi_names = [str(i) for i in toi_names]
 
 planet_data = get_planet_data(toi_names)
-get_transit_data(planet_data,2458848.32014,2459001.32014)
+
+get_transit_data( planet_data,
+                convert_to_jd((2019,12,31)),
+                convert_to_jd((2020,3,31))
+                )
