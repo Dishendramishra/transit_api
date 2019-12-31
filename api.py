@@ -47,6 +47,7 @@ def get_planet_data(toi_names):
             planet.extend(tmp)
 
             data.append(planet)
+            print("   TOI",name,"=",planet)
 
         except Exception as e:
             print(e)
@@ -54,6 +55,7 @@ def get_planet_data(toi_names):
 
     #               0     1    2     3       4       5
     # data  = [ tyc_name, ra, dec, epoch, period, duration]
+    print()
     return data
 
 
@@ -110,14 +112,18 @@ def get_transit_data(planet_data,begin_data,end_date):
         file_data = response.text
         file_data = file_data[file_data.rfind("#")+1:]
         save_as_file(file_data,data[0]+".csv")
-
+        print("   File Created:",data[0]+".csv")
+    print()
 #%%
-toi_names = [1592]#,1606,1598,1608,1580,1005,1548,1471,1490]
+toi_names = [1592,1606,1598,1608,1580,1005,1548,1471,1490]
 toi_names = [str(i) for i in toi_names]
 
+print("Generating planet Data....")
 planet_data = get_planet_data(toi_names)
 
+print("Generating Transit Files....")
 get_transit_data( planet_data,
                 convert_to_jd((2019,12,31)),
                 convert_to_jd((2020,3,31))
                 )
+print("DONE!")
