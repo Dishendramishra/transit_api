@@ -4,6 +4,8 @@ import re
 from bs4 import BeautifulSoup
 import datetime
 import julian
+from colorama import init
+from termcolor import colored
 
 def save_as_file(string, filename):
     with open(filename,"w") as f:
@@ -115,15 +117,15 @@ def get_transit_data(planet_data,begin_data,end_date):
         print("   File Created:",data[0]+".csv")
     print()
 #%%
-toi_names = [1592,1606,1598,1608,1580,1005,1548,1471,1490]
+toi_names = [1592,1606]#,1598,1608,1580,1005,1548,1471,1490]
 toi_names = [str(i) for i in toi_names]
 
-print("Generating planet Data....")
+print(colored("Generating planet Data....","red"))
 planet_data = get_planet_data(toi_names)
 
-print("Generating Transit Files....")
+print(colored("Generating Transit Files....","red"))
 get_transit_data( planet_data,
                 convert_to_jd((2019,12,31)),
                 convert_to_jd((2020,3,31))
                 )
-print("DONE!")
+print(colored("--DONE!--","green"))
