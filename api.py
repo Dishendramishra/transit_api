@@ -43,7 +43,7 @@ def get_planet_data(toi_names):
             tyc_name = re.search("TYC\s.+\-\d,",response).group(0)[:-1]
 
             planet = []
-            planet.extend([tyc_name, ra, dec])
+            planet.extend(["TOI "+name,tyc_name, ra, dec])
             tmp = [td[3].text, td[4].text, td[7].text]  # epoch,period,duration
             tmp = [ i[:i.find(" ")-1] for i in tmp]
             planet.extend(tmp)
@@ -55,8 +55,8 @@ def get_planet_data(toi_names):
             print(e)
             print("Failed for: ",name)
 
-    #               0     1    2     3       4       5
-    # data  = [ tyc_name, ra, dec, epoch, period, duration]
+    #             0       1      2   3     4       5       6
+    # data  = [ name, tyc_name, ra, dec, epoch, period, duration]
     print()
     return data
 
@@ -77,11 +77,11 @@ def get_transit_data(planet_data,begin_data,end_date):
         params = {
         "destDir":directory,
         "customParams":1,
-        "period":data[4],
-        "tdur":data[5],
-        "tranmid":data[3],
-        "ra":data[1],
-        "dec":data[2],
+        "period":data[5],
+        "tdur":data[6],
+        "tranmid":data[4],
+        "ra":data[2],
+        "dec":data[3],
         "all_ephem":1,
         "locations":"%22Custom,24.6653,72.7819%22",
         "begin":begin_data,
@@ -114,7 +114,7 @@ def get_transit_data(planet_data,begin_data,end_date):
         file_data = response.text
         file_data = file_data[file_data.rfind("#")+1:]
         save_as_file(file_data,data[0]+".csv")
-        print("   File Created:",data[0]+".csv")
+        print("   File Created:","TOI_"+data[0]+".csv")
     print()
 #%%
 toi_names = [1592,1606]#,1598,1608,1580,1005,1548,1471,1490]
