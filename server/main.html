@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        function generate_data(){
+            start = document.getElementById("start").value;
+            end = document.getElementById("end").value;
+            names = document.getElementById("names").value;
+            alert(start+end+names);
+        }
+    </script>
+</head>
+<style>
+    body {
+      background-image: url('back.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+</style>
+<body>
+    <h1 style="color:white;">Transit Query API</h1>
+    <table>
+        <tr>
+            <td style="color:white;">Start Date</td>
+            <td>
+                <input id="start" type="date" name="bday">
+            </td>
+        </tr>
+        <tr>
+            <td style="color:white;">End Date</td>
+            <td>
+                <input id="end" type="date" name="bday">
+            </td>
+        </tr>
+        <tr>
+            <td style="color:white;">TOI Names</td>
+            <td>
+                <input id="names" type="text">
+            </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2"><button onclick="generate_data()">Submit</button></td>
+        </tr>
+    </table>
+</body>
+</html>
